@@ -1,138 +1,367 @@
-# CENG 314 - Wireless and Mobile Networks (Week 7) - Study Notes
+# CENG 314 - Midterm Study Guide: Network Layer
 
-These notes provide a concise overview of Wireless and Mobile Networks, focusing on key concepts and important terms for midterm preparation.
+## Slide 1: Network Layer Overview
 
-## Slide 1: Wireless Networks
+*   **Network Layer:** The most complicated layer in the Internet model.
+*   **Host-to-host communication:**  Like talking from one computer to another computer. (Like the post office delivers mail from one home to another)
+*   **Data and Control Planes:**
+    *   **Data plane:** How a router sends data packets. *Intra* = Inside, means the *per router* functions.
+    *   **Control plane:** The logic behind *network wide* logic.
 
-*   Wireless hosts
-        * Laptops, smartphones
-        * Run applications.
+## Slide 2: "Data Plane" Roadmap
 
-## Slide 2: Elements of Wireless Networks
+*   **Network Layer Overview:** Includes Data and Control Plane.
+*   **What's inside a router:** Includes input ports, output ports, how the ports switch between each other, and scheduling (like scheduling CPU time for each process)
+*   **IP: The Internet Protocol:**  How data is formatted (datagram format), how computers are found on the network (addressing), IPv6.
+*   **Generalized Forwarding/SDN:** Using match+action to forward packets using Software Defined Networking
+*   **Middleboxes:**
 
-*   **Wireless host:** Computer/device that can connect without wires.
-*   **Base station:**  Like a wired router, but for wireless connections. (A1/A2: Like a cell phone tower). Connects wireless clients to a wired network.
+## Slide 3: Network Layer Services and Protocols
 
-## Slide 3: Wireless network taxonomy
+*   **Sender (H1) to Receiver (H2):** One computer is sending data to another computer.
+*   **NL of H1:** Adds info so it is sent to the next computer
+*   **NL of H2:** Delivers it to the right part of the computer
+*   **Network Layer Protocols:** are rules that each computer must follow in order to talk to each other.
+*   **Routers:**
+    *   Looks at the datagrams to send them correctly.
+    *   **Data Plane Role:**  Sends data from input to output.
+    *   **Control Plane Role:**  Helps data travel the right path.
 
-*   Different types of wireless networks, categorized by range and mobility:
-    *   Infrastructure vs. Infrastructure-less.
+## Slide 4: Two Key Network Layer Functions
 
-## Slide 4: Wireless network taxonomy
+*   **Forwarding (Data Plane):**  Moving packets from a router's input to the right output. Analogy : Get through single interchange.
+*   **Routing (Control Plane):**  Figuring out the best path for packets to travel. Analogy : Plan trip from A to B.
 
-*   Infrastructure mode
-        *  Base station connect wireless devices to the network.
-*   Ad hoc mode
-         * No base station
-         * Nodes can only transmit to other nodes within link coverage
-         * Nodes organize themselves into a network
+## Slide 5: Data Plane, Control Plane
 
-## Slide 5: IEEE 802.11 Wireless LAN
+*   **Data Plane:**
+    *   *Local* function that forwards to the correct output port.
+*   **Control Plane:**
+    *   *Network-wide* logic on the route of the datagram from source to destination.
+*   **Control-Plane Approaches:**
+    *   **Traditional routing algorithms:** implemented in routers.
+    *   **Software-defined networking (SDN):** implemented in (remote) servers
 
-*   Popular wireless LAN technology.
-*   Based on IEEE 802.11 standard.
-*   Often referred to as "WiFi."
+## Slide 6: Per-Router Control Plane
 
-## Slide 6: 802.11 architecture
+*   Each router shares route information with its neighbours, all routers know how to forward packets.
 
-*   Wireless station with a MAC address
-*   Access points is the medium
-*   The access point and several wireless is one basic set (BSS).
+## Slide 7: Software-Defined Networking (SDN) Control Plane
 
-## Slide 7: 802.11: Channels, Association
+*   SDN: Remote computer tells the router how to forward the traffic. Router performs forwarding according to pre-defined table only.
 
-*   **Channel:** A range of frequencies used for communication.
-*   **Association:** When a wireless device connects to a base station, it's called "association".
+## Slide 8: Network Service Model
 
-## Slide 8: IEEE 802.11: multiple access
+*   **Possible Services:** The network layer can provide different types of delivery:
+    *   **Individual datagrams:**
+        *   Guaranteed delivery.
+        *   Guaranteed delivery within a certain delay.
+    *   **Flow of Datagrams**
+        *   Delivering datagrams in order
+        *   Guaranteed bandwidth to the receiver.
+        *   Security
 
-*   To avoid the noise, the wireless network uses:
-       * CSMA/CA: Sender
-          - Has to sense channel and the carrier signal
-          - Avoid collision
+## Slide 9: Network Service Model
 
-## Slide 9: IEEE 802.11 MAC protocol: CSMA/CA
+*   **Best Effort:** The Internet does NOT guarantee anything (no bandwidth, loss, etc.).
 
-*   **CSMA/CA (Carrier Sense Multiple Access with Collision Avoidance):** Before sending, a node listens to the channel. If busy, it waits.
+## Slide 10: "Data Plane" Roadmap
 
-## Slide 10: Collision Avoidance: RTS CTS
+*   See Slide 2.
 
-*   **RTS (Request To Send):** A short control packet is send by the sender first.
-*   **CTS (Clear To Send):** After hearing RTS, the receiver node will send CTS.
+## Slide 11: Router Architecture Overview
 
-## Slide 11: 802.11 frame: addressing
+*   **Router:** Four components
+    *   **Input Ports:** Get data in.
+    *   **Output Ports:** Get data out.
+    *   **Routing Processor:** (Software) Figuring out *where* packets need to go. Control plane operates in millisecond timescale.
+    *   **Switching Fabric:** (Hardware) Physically move packets in router. Data plane operates in nanosecond timescale.
 
-*   Four addresses in frame:
-         *  Address 1: MAC address of receiving wireless station
-         *  Address 2: MAC address of transmitting wireless station
-         *  Address 3: MAC address of router interface to which AP is connected
-         *  Address 4: used only in ad hoc mode
+## Slide 12: Input Port Functions
 
-## Slide 12: 802.11 frame
+*   Physical Layer Termination: Ending a wire at the router.
+*   Link Layer Function: Need this so we can be compatible with the Link Layer
+*   **Decentralized Switching:** Lookup in table and decide *where* the datagram should be forwarded to.
+*   Input port queuing: Datagrams are arriving at a rate faster than they can be forwarded.
 
-*   Frame details for better understanding of what protocol is being used and is it secured or not.
+## Slide 13: Input Port Functions
 
-## Slide 13: 802.11: mobility, more
+*   **Destination-Based Forwarding:** Forwarding decisions based on the final address, no matter who sent the message.
+*   **Generalized forwarding:** Forwarding decisions based on header field values.
 
-*   More protocols that helps mobile units to connect and move between the network.
+## Slide 14: Longest Prefix Matching
 
-## Slide 14: Mobility: basics
+*   **Longest Prefix Match:** Use the *longest* matching address prefix to forward the address.
 
-*   **Home network:** The network to which a mobile device is permanently connected.
-*   **Home agent:** Entity within home network performs mobility functions on behalf of mobile
+## Slide 15: Longest Prefix Matching
 
-## Slide 15: Mobility
+*   Example of how longest prefix matching works
 
-*   Analogy to someone with a permanent address (home network) and a forwarding address at each spot when travelling (visited network).
+## Slide 16: Longest Prefix Matching
 
-## Slide 16: Mobility: terminology
+*   Example of how longest prefix matching works
 
-*   Permanent address always remains.
-*   Foreign agent has care-of-address for mobile.
-*   Correspondent: wants to communicate with mobile
+## Slide 17: Longest Prefix Matching
 
-## Slide 17: Mobile IP: two approaches
+*   If multiple prefixes match a given destination address, use the longest one.
 
-*   Indirect routing:
-         * Correspondent addresses packets to mobile’s home address
-         * Home agent intercepts packets, forwards to mobile’s care-of-address
-*   Direct routing:
-        * Correspondent gets foreign address of mobile, sends directly to mobile
+## Slide 18: Switching Fabrics
 
-## Slide 18: Indirect routing: comments
+*   **Switching Fabric:** Transfers packet from input link to the correct output link.
+*   **Switching Rate:** N * input rate.
 
-*   Triangle problem: correspondent-home-network-mobile
+## Slide 19: Switching Fabrics
 
-## Slide 19: Direct routing
+*   **Switching via Memory**
+*   **Switching via Bus**
+*   **Switching via interconnection network**
 
-*   Correspondent requests foreign address from home agent
-    * Care-of address
+## Slide 20: Switching via Memory
 
-## Slide 20: Communicating with a mobile: summary
+*   Early generation routers signal the routing processor. Then it sends the datagram to the destination.
 
-*   Many details skipped for clarity:
-          *  authentication (ensure correspondent is really talking to mobile)
-          * registration with HA
-          *  multiple foreign agents
-*   Keep it simple, stupid: why so complicated?
-          *  want to maintain transparency: Hmmm, let me think
+## Slide 21: Switching via Bus
 
-## Slide 21: Mobile networks: GSM
+*   Send to output without the routing processor.
+*   **Bus contention:** the speed will be limited by bus bandwidth.
 
-*   GSM is the most common mobile network
+## Slide 22: Switching via Interconnection Network
 
-## Slide 22: Components of GSM network architecture
+*   Use a network of horizontal and vertical buses to switch between ports.
 
-*   Components in GSM for cellular network and their functionalities.
+## Slide 23: Input Port Queuing
 
-## Slide 23: GSM: setting a call: Visited network
+*   If switch slower than input ports combined, will have queueing at input queues.
+*   **Head-of-the-Line (HOL) Blocking:**  A datagram at the front of the queue prevents other datagrams from moving forward.
 
-*   Process of setting a call through the cellular network.
+## Slide 24: Output Port Queuing
 
-## Slide 24: GSM: handoff with common MSC
+*   **Buffering:** Datagrams arrive faster than they can be sent, so we have to store them.
+*   **Drop policy:** Choosing which datagrams to drop to free space.
 
-*   Handoff is the process of change a connection during conversation.
+## Slide 25: Output Port Queuing
 
-## Slide 25: Why a new layer: mobile?
+*   Buffering when arrival rate exceeds line speed.
 
-*   “First principles” not violated: keep it simple stupid!
+## Slide 26: Packet Scheduling: FCFS
+
+*   **FCFS (First-Come, First-Served):** Datagrams are sent in the order they arrived.
+
+## Slide 27: Scheduling Policies: Priority
+
+*   **Priority Scheduling:** Send more important datagrams first, and can classify header fields
+
+## Slide 28: Scheduling Policies: Round Robin
+
+*   Each class of queue has an equal opportunity and is served in a round robin (cyclically).
+
+## Slide 29: Scheduling Policies: Weighted Fair Queueing
+
+*   **Weighted Fair Queueing (WFQ):** Like round robin but certain queues get more time.
+
+## Slide 30: Router Architecture Summary
+
+*   Input ports, output ports, a routing processor, and switching fabric.
+*   **In traditional routers**, routers execute the routing protocols.
+*   **In SDN routers**, a remote computer is responsible for communicating with the routers.
+
+## Slide 31: "Data Plane" Roadmap
+
+*   See Slide 2.
+
+## Slide 32: Network Layer: Internet
+
+*   Network layer functions of a host/router
+
+## Slide 33: IP Datagram Format
+
+*   Shows all the fields of an IP Datagram.
+*   IPv4 has a header size of 20 bytes.
+
+## Slide 34: IP Addressing: Introduction
+
+*   **IP Address:** A number that identifies computers in the internet.
+*   **Interface:** Connection between computer and physical link.
+
+## Slide 35: IP Addressing: Introduction
+
+*   IP addresses are classful, as in IPv4
+*   Classes are A,B,C,D, and E.
+
+## Slide 36: IP Addressing: Introduction
+
+*   Show ranges of classes for IP address.
+
+## Slide 37: IP Addressing: Introduction
+
+*   Reserved Address ranges
+
+## Slide 38: IP Addressing: Introduction
+
+*   The first byte is between 128 and 191. Hence Class B
+*   The block has a netid of 132.21.
+*   The addresses range from 132.21.0.0 to 132.21.255.255
+
+## Slide 39: IP Addressing: Introduction
+
+*   A mask is a 32-bit binary number
+*   The mask is ANDed with IP address to get the block address (network address)
+*   Class A default mask is 255.0.0.0
+*   Class B default mask is 255.255.0.0
+*   Class C Default mask 255.255.255.0
+
+## Slide 40: Subnets
+
+*   **Subnet:** A part of a network where devices can directly reach each other.
+*   IP addresses have structure, meaning the first bits are used for knowing what subnet it is, and the remaining bits indicate which computer is part of the network.
+
+## Slide 41: Subnets
+
+*   Show how Subnets improve netword performance.
+
+## Slide 42: Subnets
+
+*   Default Mask
+*   Subnet Mask
+
+## Slide 43: Subnets
+
+*   Subnets are networks in a big network!
+
+## Slide 44: Subnets
+
+*   Different ways of visualizing subnetworks.
+
+## Slide 45: IP Addressing: CIDR
+
+*   **CIDR (Classless Inter-Domain Routing):**
+    *   Instead of fixed network sizes (like Class A, B, C), CIDR lets you pick how big your network is!
+    *   `a.b.c.d/x` means that the first *x* bits define the subnet.
+
+## Slide 46: IP Addresses: How to Get One?
+
+*   **Two Questions:**
+    1.  How does a computer get an IP address in its *own* network?
+    2.  How does a *network* get its IP address to begin with?
+*   **How does a computer (host) get IP address?**
+    *   **DHCP (Dynamic Host Configuration Protocol):**  A server gives it an address.
+
+## Slide 47: DHCP: Dynamic Host Configuration Protocol
+
+*   Goal: the client needs to retrieve an IP to join network
+*   Can renew address.
+*   Reuse addresses
+*   DHCP:
+    *   DHCP Discover
+    *   DHCP Offer
+    *   DHCP Request
+    *   DHCP Ack
+
+## Slide 48: DHCP Client-Server Scenario
+
+*   Typically, DHCP server will be co-located in router, serving all subnets to which router is attached.
+
+## Slide 49: DHCP Client-Server Scenario
+
+*   Shows the steps of how clients and servers communicate during DHCP.
+
+## Slide 50: DHCP: More than IP Addresses
+
+*   First-hop router address
+*   DNS sever
+*   Network Mask
+
+## Slide 51: IP Addresses: How to Get One?
+
+*   ISPs (Internet Service Provider) get IPs from the Internet Corporation for Assigned Names and Numbers (ICANN).
+
+## Slide 52: Hierarchical Addressing: Route Aggregation
+
+*   Hierarchical addressing improves efficiency of routes.
+
+## Slide 53: IP Addressing: Last Words
+
+*   **ICANN:** Who manages and hands out IP addresses
+*   **NAT** is to help IP exhaustion
+*   **IPv6** will also help since it supports way more IPs
+
+## Slide 54: NAT: Network Address Translation
+
+*   **NAT:** Allows all computers in a home network to share a single public IP address.
+
+## Slide 55: NAT: Network Address Translation
+
+*   Benefits of NAT
+
+## Slide 56: NAT: Network Address Translation
+
+*   Explains how NAT works step by step.
+
+## Slide 57: NAT: Network Address Translation
+
+*   Diagram on how NAT works.
+
+## Slide 58: IPv6: Motivation
+
+*   **Motivation:** IPv4 has address space exhaustion, and IPv6 is better
+
+## Slide 59: IPv6 Datagram Format
+
+*   Fixed header of 40 bytes, source/dest address of 128 bits, flow label for classifying flows.
+
+## Slide 60: "Data Plane" Roadmap
+
+*   See Slide 2.
+
+## Slide 61: Generalized Forwarding: Match Plus Action
+
+*   match bits of packet and perform action based on that using forwarding table.
+
+## Slide 62: Flow Table Abstraction
+
+*   Flow Table
+*   Match
+*   Action
+
+## Slide 63: Flow Table Abstraction
+
+*   See how to match packets and perform actions accordingly in this slide.
+
+## Slide 64: OpenFlow
+
+*   Shows many items that can be matched with OpenFlow, such as ingress ports, MAC address, IP addresses, and so on.
+
+## Slide 65: OpenFlow: Examples
+
+*   Shows common examples of OpenFlow, such as destination-based forwarding and firewalls.
+
+## Slide 66: OpenFlow: Examples
+
+*   Shows common examples of OpenFlow, such as layer 2 destination-based forwarding.
+
+## Slide 67: OpenFlow Abstraction
+
+*   Router: Forward
+*   Switch: Forward or Flood
+*   Firewall: Permit or Deny
+*   NAT: Rewrite address
+
+## Slide 68: OpenFlow Example
+
+*   Describes how OpenFlow orchestrates how traffic flows across a network.
+
+## Slide 69: OpenFlow Example
+
+*   Describes how OpenFlow orchestrates how traffic flows across a network.
+
+## Slide 70: "Data Plane" Roadmap
+
+*   See Slide 2.
+
+## Slide 71: Middleboxes
+
+*   "Middlebox" is anything on the path that performs operations other than forwarding.
+
+## Slide 72: Middleboxes Everywhere
+
+*   NAT, firewalls, IDS, load balancers, and caches are all examples of middleboxes.
